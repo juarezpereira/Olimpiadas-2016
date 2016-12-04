@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>Filtro Acesso</filter-name>
+        <filter-class>Utils.FilterSessao</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Filtro Acesso</filter-name>
+        <url-pattern>/dashboard/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>ServletRegister</servlet-name>
+        <servlet-class>Controller.ServletRegister</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletLogado</servlet-name>
+        <servlet-class>Controller.ServletLogado</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Registro Esporte</servlet-name>
+        <jsp-file>/JSP/RegistroEsporte.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Registro Medalhas</servlet-name>
+        <jsp-file>/JSP/RegistroMedalha.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Registro Pais</servlet-name>
+        <jsp-file>/JSP/RegistroPais.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <jsp-file>/JSP/Dashboard.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletLogout</servlet-name>
+        <servlet-class>Controller.ServletLogout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletRegister</servlet-name>
+        <url-pattern>/registrar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletLogado</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registro Esporte</servlet-name>
+        <url-pattern>/dashboard/RegistroEsporte</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registro Medalhas</servlet-name>
+        <url-pattern>/dashboard/RegistroMedalha</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registro Pais</servlet-name>
+        <url-pattern>/dashboard/RegistroPais</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletLogout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
