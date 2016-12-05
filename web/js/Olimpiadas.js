@@ -33,3 +33,19 @@ function validarLogin(){
     return true;
 }
 
+function validarLogin(){
+    var xHttpRequest = new XMLHttpRequest();
+    
+    xHttpRequest.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            redirecionarPagina(this);
+        }
+    };
+    xHttpRequest.open("POST");
+    xHttpRequest.send();
+}
+
+function redirecionarPagina(xHttp){
+    
+}
+
