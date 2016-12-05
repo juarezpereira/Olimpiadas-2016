@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 public class EsporteDAO {
 
     private static final String SELECT_ESPORTES = "SELECT * FROM esportes";
+    private static final String DELET_ESPORTE = "DELETE FROM esportes WHERE codigo = ?";
 
     private Connection con;
     private PreparedStatement ps;
@@ -63,6 +64,19 @@ public class EsporteDAO {
             return false;
         }
 
+    }
+    
+    public boolean excluir(int id){
+    
+        try{
+            ps = con.prepareStatement(DELET_ESPORTE);
+            ps.setInt(1, id);
+            
+            return ps.executeUpdate() > 0;
+        }catch (SQLException e) {
+            Logger.getLogger(EsporteDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
 
     public List<Esporte> getEsportes() {

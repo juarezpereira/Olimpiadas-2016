@@ -47,13 +47,8 @@ public class ServletCadastroPais extends HttpServlet {
         
         if(result.equals("Inserido")){
             List<Pais> mList = new ArrayList();
-            
             mList.addAll(dao.getPaises());
-            dao.closeConnection();
-            
-            request.setAttribute("paises", mList);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            
+            response.sendRedirect("/Olimpiadas/dashboard");
         }else{
             dao.closeConnection();
             response.sendRedirect("JSP/Error.jsp");

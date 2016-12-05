@@ -52,6 +52,10 @@
         <servlet-name>ServletCadastroMedalha</servlet-name>
         <servlet-class>Controller.ServletCadastroMedalha</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletDeletar</servlet-name>
+        <servlet-class>Controller.ServletDeletar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegister</servlet-name>
         <url-pattern>/Registrar</url-pattern>
@@ -86,11 +90,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletCadastroPais</servlet-name>
-        <url-pattern>/dashboard/CadastroPas</url-pattern>
+        <url-pattern>/dashboard/CadastroPais</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletCadastroMedalha</servlet-name>
         <url-pattern>/dashboard/CadastroMedalha</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletDeletar</servlet-name>
+        <url-pattern>/dashboard/deletar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

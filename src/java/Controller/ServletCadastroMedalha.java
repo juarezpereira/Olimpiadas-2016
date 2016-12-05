@@ -57,7 +57,7 @@ public class ServletCadastroMedalha extends HttpServlet {
         MedalhasDAO dao = new MedalhasDAO();
         
         if(dao.insert(medalhas)){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("/Olimpiadas/dashboard");
         }else{
             response.sendRedirect("JSP/Error.jsp");
         }

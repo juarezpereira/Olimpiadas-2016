@@ -21,7 +21,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Registro País</div>
     <div class="panel-body">
-        <form method="POST" action="/dashboard/CadastroPas">
+        <form method="POST" action="dashboard/CadastroPais">
             <label for="idSigla"><p>Sigla:</p></label>
             <input class="form-control" type="text" name="siglaPais" id="idSigla" maxlength="3" placeholder="Sigla">
             <br>
@@ -52,7 +52,7 @@
             <tr>
                 <td><%= mList.get(i).getCodigoPais()%></td>
                 <td><%= mList.get(i).getNome()%></td>
-                <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
+                <td><a href="#" onClick="deletPais(<%= mList.get(i).getCodigoPais()%>)"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
             <%
                 }
@@ -60,3 +60,26 @@
         </tbody>
     </table>
 </div>
+<script lang="javascript">
+    function deletPais(sigla) {
+        var xHttp;
+
+        if (window.XMLHttpRequest) {
+            xHttp = new XMLHttpRequest();
+        } else {
+            xHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xHttp.onreadystatechange = function () {
+            if (xHttp.readyState == 4 && (xHttp.status == 200)) {
+                var resposta = JSON.parse(xHttp.responseText);
+
+                alert(resposta.response);
+            }
+        }
+        xHttp.open("POST", "/Olimpiadas/dashboard/deletar");
+        xHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xHttp.send("delet=pais&id=" + sigla);
+    }
+
+</script>

@@ -72,21 +72,18 @@ public class PaisDAO {
         
     }
 
-    public String excluir(Pais pais) {
-        String sql = "DELET FROM paises WHERE cod_sigla = ?";
+    public boolean excluir(String sigla) {
+        String sql = "DELETE FROM paises WHERE cod_sigla = ?";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, pais.getCodigoPais());
+            ps.setString(1, sigla);
 
-            if (ps.executeUpdate() > 0) {
-                return "Excluido com sucesso.";
-            } else {
-                return "Erro ao excluir";
-            }
+            return ps.executeUpdate() > 0;
+               
         } catch (SQLException e) {
             Logger.getLogger(PaisDAO.class.getName()).log(Level.SEVERE, null, e);
-            return e.getMessage();
+            return false;
         }
 
     }    

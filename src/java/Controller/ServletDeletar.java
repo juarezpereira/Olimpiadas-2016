@@ -6,18 +6,20 @@
 package Controller;
 
 import Model.DAO.EsporteDAO;
-import Model.Esporte;
+import Model.DAO.PaisDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Juarez
  */
-public class ServletCadastroEsporte extends HttpServlet {
+public class ServletDeletar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,17 +34,37 @@ public class ServletCadastroEsporte extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String nameEsporte = request.getParameter("nameEsporte");
+        String deletar = request.getParameter("delet");
         
-        Esporte esporte = new Esporte();
-        esporte.setNome(nameEsporte);
+        JSONObject json = new JSONObject();
         
-        EsporteDAO dao = new EsporteDAO();
+        switch(deletar){
+            case "esporte":
+                int id = Integer.valueOf(request.getParameter("id"));
+                
+                EsporteDAO mDataAccess = new EsporteDAO();
+                if(mDataAccess.excluir(id)){
+                    json.put("response", "excluido");
+                }else{
+                    json.put("response", null);
+                }
+                break;
+            case "pais":
+                String sigla = (String) request.getParameter("id");
+                
+                PaisDAO mDataAccessP = new PaisDAO();
+                if(mDataAccessP.excluir(sigla)){
+                    json.put("response", "excluido");
+                }else{
+                    json.put("response", null);
+                }
+                break;
+               
+        }
         
-        if(dao.inserir(esporte)){
-            response.sendRedirect("/Olimpiadas/dashboard");
-        }else{
-            response.sendRedirect("JSP/Error.jsp");
+        try (PrintWriter out = response.getWriter()) {
+            out.print(json.toString());
+            out.close();
         }
         
     }

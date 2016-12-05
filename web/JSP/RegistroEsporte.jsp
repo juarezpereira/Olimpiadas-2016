@@ -9,12 +9,12 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.DAO.EsporteDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! 
+<%!
     private EsporteDAO mDataAcess = new EsporteDAO();
     private List<Esporte> mList = new ArrayList();
 %>
 
-<% 
+<%
     this.mList.addAll(mDataAcess.getEsportes());
 %>
 <!DOCTYPE html>
@@ -46,9 +46,7 @@
             <tr>
                 <td><%= mList.get(i).getNome()%></td>
                 <td>
-                    <button class="btn btn-default" type="button" name="esporteId" value="<%= mList.get(i).getId()%>" data-toggle="modal" data-target="#modalExcluir">
-                        <span class="glyphicon glyphicon-trash btn-excluir"></span>
-                    </button>
+                    <a class="glyphicon glyphicon-trash btn-excluir" onClick="deletEsporte(<%= mList.get(i).getId() %>)"></a>
                 </td>
             </tr>
             <% }%>
@@ -73,3 +71,26 @@
         </div>
     </div>
 </div>
+<script lang="javascript">
+    function deletEsporte(esporteId){      
+        var xHttp;
+
+        if (window.XMLHttpRequest) {
+            xHttp = new XMLHttpRequest();
+        } else {
+            xHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        xHttp.onreadystatechange = function(){
+            if(xHttp.readyState == 4 && (xHttp.status == 200)){
+                var resposta = JSON.parse(xHttp.responseText);
+                
+                alert(resposta.response);
+            }
+        }
+        xHttp.open("POST","/Olimpiadas/dashboard/deletar");
+        xHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xHttp.send("delet=esporte&id="+esporteId);
+    }
+
+</script>
