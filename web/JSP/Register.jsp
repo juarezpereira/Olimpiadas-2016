@@ -9,7 +9,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Registro</div>
     <div class="panel-body">
-        <form method="POST" action="" onsubmit="register()">
+        <form method="POST" onsubmit="efetuarRegistro()">
             <label for="idUserR"><p>Usuario:</p></label>
             <input class="form-control" type="text" name="user" id="idUserR" placeholder="Usuario">
             <br>
@@ -17,42 +17,50 @@
             <input class="form-control" type="password" name="pass" id="idPassR" placeholder="Senha">
             <br>
             <label for="idPassCR"><p>Confirmar senha:</p></label>
-            <input class="form-control" type="password" name="passc" id="idPassCR" placeholder="Confirmar senha" onblur="validarForm()">
+            <input class="form-control" type="password" name="passc" id="idPassCR" placeholder="Confirmar senha">
             <br>
             <input class="btn btn-primary col-md-12" type="submit" value="Registrar">
         </form>
     </div>
 </div>
 <script lang="javascript">
-    function validarForm() {
-        var user = document.getElementById('idUserR').value;
-        var pass = document.getElementById('idPassR').value;
-        var passc = document.getElementById('idPassCR').value;
+    function efetuarRegistro() {
+        if (validarRegistro()) {
+            registro();
+            return false;
+        }
+        return false;
+    }
+    
+    function validarRegistro() {
+        var usuario = document.getElementById('idUserR').value;
+        var senha = document.getElementById('idPassR').value;
+        var senhaconfirma = document.getElementById('idPassCR').value;
 
-        var regra1 = new RegExp(/[a-z]{1,}/).test(pass);
-        var regra2 = new RegExp(/[A-Z]{1,}/).test(pass);
-        var regra3 = new RegExp(/[0-9]{1,}/).test(pass);
-        var regra4 = pass.length >= 8;
+        var regra1 = new RegExp(/[a-z]{1,}/).test(senha);
+        var regra2 = new RegExp(/[A-Z]{1,}/).test(senha);
+        var regra3 = new RegExp(/[0-9]{1,}/).test(senha);
+        var regra4 = senha.length >= 8;
 
-        if (!user) {
+        if (!usuario) {
             alert("Preencha o campo usuario");
             document.getElementById('idUserR').focus();
             return false;
         }
 
-        if (!pass) {
+        if (!senha) {
             alert("Preencha o campo senha");
             document.getElementById('idPassR').focus();
             return false;
         }
 
-        if (!passc) {
+        if (!senhaconfirma) {
             alert("Confirme o campo senha");
-            document.getElementById('idPassR').focus();
+            document.getElementById('idPassCR').focus();
             return false;
         }
         
-        if (pass != passc){
+        if (senha != senhaconfirma){
             alert("Senhas incompativeis");
             document.getElementById('idPassCR').focus();
             return false;
@@ -67,18 +75,31 @@
         return true;
     }
 
-    function register() {
-        var user = document.getElementById('idUserR').value.trim();
-        var pass = document.getElementById('idPassR').value.trim();
+    function registro() {
+        var usuarioR = document.getElementById('idUserR').value.trim();
+        var senhaR = document.getElementById('idPassR').value.trim();
 
-        var XMLHttpRequest = new XMLHttpRequest();
-        XMLHttpRequest.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                alert("LOGADO!");
-                }
-          };
-        XMLHttpRequest.open("GET", "/Olimpiadas/registrar?User=" + user + "&Pass=" + pass);
-        XMLHttpRequest.send();
+        var xHttp;
+
+        if (window.XMLHttpRequest) {
+            xHttp = new XMLHttpRequest();
+        } else {
+            xHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xHttp.onreadystatechange = function () {
+            if (xHttp.readyState == 4 && (xHttp.status == 200)) {
+                var resposta = JSON.parse(xHttp.responseText);
+                
+                if(resposta){
+                    window.location.assign(resposta.response);
+                }
+            }
+        };
+
+        xHttp.open("POST", "/Olimpiadas/Registrar");
+        xHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xHttp.send("usuario=" + usuarioR + "&senha=" + senhaR);
     }
 </script>
 

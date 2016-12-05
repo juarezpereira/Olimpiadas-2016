@@ -33,8 +33,8 @@ public class UsuarioDAO {
     public boolean registerUser(Usuario user){
         try {
             ps = con.prepareStatement(INSERT);
-            ps.setString(0, user.getNameUser());
-            ps.setString(1, user.getPassword());
+            ps.setString(1, user.getNameUser());
+            ps.setString(2, user.getPassword());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {

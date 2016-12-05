@@ -54,7 +54,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegister</servlet-name>
-        <url-pattern>/registrar</url-pattern>
+        <url-pattern>/Registrar</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletLogado</servlet-name>

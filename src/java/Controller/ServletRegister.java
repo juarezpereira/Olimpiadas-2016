@@ -8,10 +8,12 @@ package Controller;
 import Model.DAO.UsuarioDAO;
 import Model.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -30,22 +32,28 @@ public class ServletRegister extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String name = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        
+        response.setContentType("application/json;charset=UTF-8");
+
+        String name = request.getParameter("usuario");
+        String pass = request.getParameter("senha");
+
         Usuario user = new Usuario();
         user.setNameUser(name);
         user.setPassword(pass);
-        
+
         UsuarioDAO mDataAccess = new UsuarioDAO();
-        if(mDataAccess.registerUser(user)){
-            response.sendRedirect("/index.jsp");
-        }else{
-            response.sendRedirect("JSP/Error.jsp");
+        JSONObject json = new JSONObject();
+
+        try (PrintWriter out = response.getWriter()) {
+            if (mDataAccess.registerUser(user)) {
+                request.getSession().setAttribute("usuario", user);
+                json.put("response", "/Olimpiadas/dashboard");
+            } else {
+                json.put("response", "/Olimpiadas");
+            }
+            out.print(json.toString());
+            out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
