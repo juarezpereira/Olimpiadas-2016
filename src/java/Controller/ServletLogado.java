@@ -8,10 +8,12 @@ package Controller;
 import Model.DAO.UsuarioDAO;
 import Model.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -30,26 +32,31 @@ public class ServletLogado extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+        response.setContentType("application/json;charset=UTF-8");
+
         String name = request.getParameter("user");
         String pass = request.getParameter("pass");
-        
+
         Usuario user = new Usuario();
         user.setNameUser(name);
         user.setPassword(pass);
-        
+
         UsuarioDAO mDataAcess = new UsuarioDAO();
         Usuario usuarioLogado = mDataAcess.loginUser(user);
         
-        if(usuarioLogado == null || !usuarioLogado.getPassword().equals(pass)){
-            request.setAttribute("error", "Unknown login, try again"); 
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        }else{
-            request.getSession().setAttribute("usuario", usuarioLogado);
-            response.sendRedirect("dashboard");
+        JSONObject json = new JSONObject();
+
+        try (PrintWriter out = response.getWriter()) {
+            if (usuarioLogado == null || !usuarioLogado.getPassword().equals(pass)) {
+                request.getSession().setAttribute("error", "Unknown login, try again");
+                json.put("response","/Olimpiadas/");
+            } else {
+                request.getSession().setAttribute("usuario", usuarioLogado);
+                json.put("response","/Olimpiadas/dashboard");
+            }
+            out.print(json.toString());
+            out.close();
         }
-                    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

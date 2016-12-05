@@ -21,7 +21,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Registro Esporte</div>
     <div class="panel-body">
-        <form method="POST" action="cadastro">
+        <form method="POST" action="dashboard/CadastroEsporte">
             <label for="idName"><p>Nome:</p></label>
             <input class="form-control" type="text" name="nameEsporte" id="idName" placeholder="Esporte">
             <br>

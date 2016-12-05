@@ -22,21 +22,27 @@
         <script src="js/Olimpiadas.js"></script>
         <script>
             function logout() {
-                var xHttpRequest;
+                var xHttp;
 
                 if (window.XMLHttpRequest) {
-                    this.xHttpRequest = new XMLHttpRequest();
+                    xHttp = new XMLHttpRequest();
                 } else {
-                    this.xHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                    xHttp = new ActiveXObject("Microsoft.XMLHTTP");
                 }
 
-                xHttpRequest.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        alert("Usuario desconectado!");
+                xHttp.onreadystatechange = function () {
+                    if (xHttp.readyState == 4 && (xHttp.status == 200)) {
+                        var resposta = JSON.parse(xHttp.responseText);
+
+                        if (resposta) {
+                            window.location.assign(resposta.response);
+                        }
                     }
                 };
-                xHttpRequest.open("POST","/Logout",true);
-                xHttpRequest.send();
+                
+                xHttp.open("POST", "../Olimpiadas/Logout", true);
+                xHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xHttp.send();
             }
         </script>
     </head>
@@ -51,7 +57,7 @@
                         <li><a href="#paises"   data-toggle="tab">Paises</a></li>
                         <li><a href="#esportes" data-toggle="tab">Esportes</a></li>
                         <li><a href="#medalhas" data-toggle="tab">Medalhas</a></li>
-                        <li><a href="#sair"     data-toggle="tab"><p onclick="logout()">Sair</p></a></li>
+                        <li><a href="#sair" onclick="logout()"     data-toggle="tab">Sair</a></li>
                     </ul>
                 </div>
             </div>

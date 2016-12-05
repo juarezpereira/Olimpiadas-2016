@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import Model.DAO.UsuarioDAO;
-import Model.Usuario;
+import Model.DAO.EsporteDAO;
+import Model.Esporte;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Juarez
  */
-public class ServletRegister extends HttpServlet {
+public class ServletCadastroEsporte extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,16 +32,15 @@ public class ServletRegister extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String name = request.getParameter("user");
-        String pass = request.getParameter("pass");
+        String nameEsporte = request.getParameter("nameEsporte");
         
-        Usuario user = new Usuario();
-        user.setNameUser(name);
-        user.setPassword(pass);
+        Esporte esporte = new Esporte();
+        esporte.setNome(nameEsporte);
         
-        UsuarioDAO mDataAccess = new UsuarioDAO();
-        if(mDataAccess.registerUser(user)){
-            response.sendRedirect("/index.jsp");
+        EsporteDAO dao = new EsporteDAO();
+        
+        if(dao.inserir(esporte)){
+            response.sendRedirect("index.jsp");
         }else{
             response.sendRedirect("JSP/Error.jsp");
         }

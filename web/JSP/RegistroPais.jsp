@@ -21,7 +21,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Registro País</div>
     <div class="panel-body">
-        <form method="POST" action="cadastroPaises">
+        <form method="POST" action="/dashboard/CadastroPas">
             <label for="idSigla"><p>Sigla:</p></label>
             <input class="form-control" type="text" name="siglaPais" id="idSigla" maxlength="3" placeholder="Sigla">
             <br>

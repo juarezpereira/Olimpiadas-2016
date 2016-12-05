@@ -5,9 +5,12 @@
  */
 package Controller;
 
-import Model.DAO.UsuarioDAO;
-import Model.Usuario;
+import Model.DAO.PaisDAO;
+import Model.Pais;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Juarez
  */
-public class ServletRegister extends HttpServlet {
+public class ServletCadastroPais extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,21 +34,30 @@ public class ServletRegister extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+     
+        String siglaPais = request.getParameter("siglaPais");
+        String namePais = request.getParameter("namePais");
         
-        String name = request.getParameter("user");
-        String pass = request.getParameter("pass");
+        Pais pais = new Pais();
+        pais.setCodigoPais(siglaPais);
+        pais.setNome(namePais);
         
-        Usuario user = new Usuario();
-        user.setNameUser(name);
-        user.setPassword(pass);
+        PaisDAO dao = new PaisDAO();
+        String result = dao.inserir(pais);
         
-        UsuarioDAO mDataAccess = new UsuarioDAO();
-        if(mDataAccess.registerUser(user)){
-            response.sendRedirect("/index.jsp");
+        if(result.equals("Inserido")){
+            List<Pais> mList = new ArrayList();
+            
+            mList.addAll(dao.getPaises());
+            dao.closeConnection();
+            
+            request.setAttribute("paises", mList);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            
         }else{
+            dao.closeConnection();
             response.sendRedirect("JSP/Error.jsp");
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

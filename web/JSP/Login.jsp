@@ -10,7 +10,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Login</div>
     <div class="panel-body">
-        <form method="POST" action="" onsubmit="return efetuarLogin()">
+        <form method="POST" onsubmit="return efetuarLogin()">
             <label for="idUser"><p>Usuario:</p></label>
             <input class="form-control" type="text" name="user" id="idUser" placeholder="Usuario">
             <br>
@@ -22,14 +22,14 @@
     </div>
 </div>
 <script lang="javascript">
-    function efetuarLogin(){
-        if(validarLogin()){   
+    function efetuarLogin() {
+        if (validarLogin()) {
             login();
-            return true;
+            return false;
         }
         return false;
     }
-    
+
     function validarLogin() {
         var user = document.getElementById('idUser').value;
         var pass = document.getElementById('idPass').value;
@@ -61,16 +61,29 @@
     }
 
     function login() {
-        var user = document.getElementById('idUser').value;
-        var pass = document.getElementById('idPass').value;
+        var user = document.getElementById('idUser').value.trim();
+        var pass = document.getElementById('idPass').value.trim();
 
-        var XMLHttpRequest = new XMLHttpRequest();
-        this.XMLHttpRequest.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    alert("LOGADO!");
-                }
-          };       
-        this.XMLHttpRequest.open("GET", "/Olimpiadas/Login?user="+user+"&pass="+pass);
-        this.XMLHttpRequest.send();
+        var xHttp;
+
+        if (window.XMLHttpRequest) {
+            xHttp = new XMLHttpRequest();
+        } else {
+            xHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xHttp.onreadystatechange = function () {
+            if (xHttp.readyState == 4 && (xHttp.status == 200)) {
+                var resposta = JSON.parse(xHttp.responseText);
+                
+                if(resposta){
+                    window.location.assign(resposta.response);
+                }
+            }
+        };
+
+        xHttp.open("POST", "/Olimpiadas/Login");
+        xHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xHttp.send("user=" + user + "&pass=" + pass);
     }
 </script>

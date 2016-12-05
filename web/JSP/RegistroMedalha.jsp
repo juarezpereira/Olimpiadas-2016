@@ -26,7 +26,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Registrar Medalhas</div>
     <div class="panel-body">
-        <form method="POST" action="CadastroMedalhas" class="form-horizontal">
+        <form method="POST" action="/dashboard/CadastroMedalha" class="form-horizontal">
             <label for="idPaises"><p>País:</p></label>
             <select class="form-control" id="idPaises" name="siglaPais">
                 <% for (int i = 0; i < mListPaises.size(); i++) {%>

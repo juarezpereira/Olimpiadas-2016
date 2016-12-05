@@ -36,6 +36,22 @@
         <servlet-name>ServletLogout</servlet-name>
         <servlet-class>Controller.ServletLogout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletCadastroEsporte</servlet-name>
+        <servlet-class>Controller.ServletCadastroEsporte</servlet-class>
+        <init-param>
+            <param-name>nameEsporte</param-name>
+            <param-value>String</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletCadastroPais</servlet-name>
+        <servlet-class>Controller.ServletCadastroPais</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletCadastroMedalha</servlet-name>
+        <servlet-class>Controller.ServletCadastroMedalha</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegister</servlet-name>
         <url-pattern>/registrar</url-pattern>
@@ -63,6 +79,18 @@
     <servlet-mapping>
         <servlet-name>ServletLogout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCadastroEsporte</servlet-name>
+        <url-pattern>/dashboard/CadastroEsporte</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCadastroPais</servlet-name>
+        <url-pattern>/dashboard/CadastroPas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCadastroMedalha</servlet-name>
+        <url-pattern>/dashboard/CadastroMedalha</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

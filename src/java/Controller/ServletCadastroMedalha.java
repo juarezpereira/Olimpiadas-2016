@@ -5,9 +5,11 @@
  */
 package Controller;
 
-import Model.DAO.UsuarioDAO;
-import Model.Usuario;
+import Model.DAO.MedalhasDAO;
+import Model.Medalhas;
+import Utils.ConnectionFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Juarez
  */
-public class ServletRegister extends HttpServlet {
+public class ServletCadastroMedalha extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,16 +34,30 @@ public class ServletRegister extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String name = request.getParameter("user");
-        String pass = request.getParameter("pass");
+        String siglaPais = request.getParameter("siglaPais");
+        int idEsporte = Integer.valueOf(request.getParameter("idEsporte"));
+        int medalha = Integer.valueOf(request.getParameter("medalha"));
         
-        Usuario user = new Usuario();
-        user.setNameUser(name);
-        user.setPassword(pass);
+        Medalhas medalhas = Medalhas.getDefault();
+        medalhas.setPais(siglaPais);
+        medalhas.setEsporte(idEsporte);
         
-        UsuarioDAO mDataAccess = new UsuarioDAO();
-        if(mDataAccess.registerUser(user)){
-            response.sendRedirect("/index.jsp");
+        switch(medalha){
+            case 1:
+                medalhas.setOuro(1);
+                break;
+            case 2:
+                medalhas.setPrata(1);
+                break;
+            case 3:
+                medalhas.setBronze(1);
+                break;
+        }
+        
+        MedalhasDAO dao = new MedalhasDAO();
+        
+        if(dao.insert(medalhas)){
+            response.sendRedirect("index.jsp");
         }else{
             response.sendRedirect("JSP/Error.jsp");
         }
